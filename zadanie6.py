@@ -20,7 +20,7 @@ def extract_text_from_image(image_path):
         text = pytesseract.image_to_string(image)
         return text
 
-image_path = 'artykul.PNG'
+image_path = 'artykul2.PNG'
 text = extract_text_from_image(image_path)
 
 first15Words= text.split()[:15]
@@ -43,5 +43,16 @@ element = WebDriverWait(driver, 10).until(
 # box = driver.find_element("xpath", ('/html/body/div[2]/div/div/main/div[1]/div/div[2]/button/input'))
 element.send_keys(textToBeSearch)
 element.send_keys(Keys.RETURN)
-time.sleep(5)
+time.sleep(2)
+first_link = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, 'div.g:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > a:nth-child(1)'))
+)
+first_link.click()
+current_url = driver.current_url
+author_element = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, '.indicator__authorname'))
+)
+
+print("Zrodlo to ", current_url)
+print("Autor to ", author_element.text)
 driver.close()
