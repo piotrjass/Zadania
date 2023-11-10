@@ -10,6 +10,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\gofrf\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
     # Funkcja do odczytywania tekstu z obrazu
 def extract_text_from_image(image_path):
@@ -19,22 +22,26 @@ def extract_text_from_image(image_path):
 
 image_path = 'artykul.PNG'
 text = extract_text_from_image(image_path)
-# Output to:
-# Numer tablicy rejestracyjnej: 4PJ54
-# VOLKSWAGEN GROUP POLSKA więc to trzeba wwyciąć
+
 first15Words= text.split()[:15]
 lacznik= " "
 textToBeSearch= lacznik.join((first15Words))
 print(textToBeSearch)
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 driver.get("https://www.google.com")
 consent = driver.find_element("xpath", ("//*[@id=\"L2AGLb\"]/div"))
 consent.click();
-# print("cookes accepted")
-# time.sleep(3)
-# box = driver.find_element("css selector", '#input')
-# box.send_keys("Python")
-# box.send_keys(Keys.RETURN)
+print("cookes accepted")
+time.sleep(3)
+print("now searching bar")
+element = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, '#APjFqb'))
+)
+
+#
+# box = driver.find_element("xpath", ('/html/body/div[2]/div/div/main/div[1]/div/div[2]/button/input'))
+element.send_keys(textToBeSearch)
+element.send_keys(Keys.RETURN)
 time.sleep(5)
-# driver.close()
+driver.close()
