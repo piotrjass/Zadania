@@ -13,6 +13,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Users\gofrf\AppData\Local\Programs\
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from gensim.summarization.summarizer import summarize
 
     # Funkcja do odczytywania tekstu z obrazu
 def extract_text_from_image(image_path):
@@ -39,8 +40,7 @@ element = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.CSS_SELECTOR, '#APjFqb'))
 )
 
-#
-# box = driver.find_element("xpath", ('/html/body/div[2]/div/div/main/div[1]/div/div[2]/button/input'))
+
 element.send_keys(textToBeSearch)
 element.send_keys(Keys.RETURN)
 time.sleep(2)
@@ -52,7 +52,11 @@ current_url = driver.current_url
 author_element = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.CSS_SELECTOR, '.indicator__authorname'))
 )
+article_element = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, '#\\37 61609'))
+)
 
 print("Zrodlo to ", current_url)
 print("Autor to ", author_element.text)
+print("Streszczenie to ", summarize(article_element.text))
 driver.close()
