@@ -23,7 +23,7 @@ text = extract_text_from_image(image_path)
 numer = text.split()[0].strip()
 
 
-#tablica musi miec od 5 do 7 znaków alfanumerycznych
+#tablica musi miec od 5 do 7 znaków alfanumerycznych, tablica rejestracyjna może być na zamówienie
 regex = r'^.{1,10}$'
 t1 =str(numer)
 
